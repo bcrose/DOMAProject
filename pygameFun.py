@@ -11,23 +11,28 @@ class Sprite:
         self.delta = delta
         self.u = u
 
+        
+pygame.init()
+pygame.font.init()
+myfont = pygame.font.SysFont('Comic Sans MS', 25)
+textsurface = myfont.render('Doma Games', False, (255, 0, 255))
+textsurface1 = myfont.render('Welcome! Throw coins to the Buddha', False, (255, 0, 255))
+textsurface2 = myfont.render('Build Karma for each coin he catches', False, (255, 0, 255))
+textsurface3 = myfont.render('Earn 100 karma for a museum secret', False, (255, 0, 255))
+textsurface5 = myfont.render('Press spacebar to throw', False, (255, 0, 255))
+textsurface4 = myfont.render('Press Enter to Begin', False, (255, 0, 255))
+sprite1 = Sprite(0, 0, 40, 60, 20, 20, 0)
+
+sprite2 = Sprite(0, 470, 30, 30, 11, 11, 0)
+
 
 def main():
-    pygame.init()
-    pygame.font.init()
-    myfont = pygame.font.SysFont('Comic Sans MS', 25)
-    textsurface = myfont.render('Doma Games', False, (255, 0, 255))
-    textsurface1 = myfont.render('Welcome! Throw coins to the Buddha', False, (255, 0, 255))
-    textsurface2 = myfont.render('Build Karma for each coin he catches', False, (255, 0, 255))
-    textsurface3 = myfont.render('Earn 100 karma for a museum secret', False, (255, 0, 255))
-    textsurface4 = myfont.render('Press Enter to Begin', False, (255, 0, 255))
 
     win = pygame.display.set_mode((500, 500))
     win1 = pygame.display.set_mode((500, 500))
     run = False
-    sprite1 = Sprite(0, 0, 40, 60, 20, 20, 0)
-    sprite2 = Sprite(0, 470, 30, 30, 11, 11, 0)
     background_image = pygame.image.load("doma.jpg").convert()
+
     while not run:
         pygame.time.delay(100)
         for event in pygame.event.get():
@@ -39,6 +44,7 @@ def main():
         win1.blit(textsurface1, (0, 50))
         win1.blit(textsurface2, (0, 75))
         win1.blit(textsurface3, (0, 100))
+        win1.blit(textsurface5, (0, 125))
         win1.blit(textsurface4, (250, 440))
 
         pygame.display.update()
