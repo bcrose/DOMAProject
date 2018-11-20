@@ -11,7 +11,7 @@ class Sprite:
         self.delta = delta
         self.u = u
 
-        
+
 pygame.init()
 pygame.font.init()
 myfont = pygame.font.SysFont('Comic Sans MS', 25)
@@ -70,7 +70,10 @@ def main():
         sprite2.x += sprite2.delta
         sprite3 = Sprite(sprite2.x, sprite2.y, 5, 5, 40, 40, sprite2.x)
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and sprite3.y > 0:
+            if event.key == pygame.K_SPACE:
+                sprite3.y -= sprite3.vel
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE:
                 sprite3.y -= sprite3.vel
 
         win.fill((255, 0, 255))
