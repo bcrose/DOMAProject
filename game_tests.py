@@ -4,10 +4,10 @@ import pygameFun
 
 class TestGame(unittest.TestCase):
     def test_vel(self):
-        self.assertGreater(pygameFun.sprite1.vel, pygameFun.sprite2.vel)
+        self.assertGreater(pygameFun.buddha.vel, pygameFun.hand.vel)
 
     def test_size(self):
-        self.assertGreater(pygameFun.sprite1.width, pygameFun.sprite2.width)
+        self.assertGreater(pygameFun.buddha.width, pygameFun.hand.width)
 
     def test_errors(self):
         self.assertEqual(pygameFun.main(), None)
