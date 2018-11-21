@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # a sprite class to create different size of sprites with different movement
 
@@ -26,7 +27,7 @@ textsurface3 = myfont.render('Earn 100 karma for a museum secret', False, (255, 
 textsurface5 = myfont.render('Press spacebar to throw', False, (255, 0, 255))
 textsurface4 = myfont.render('Press Enter to Begin', False, (255, 0, 255))
 buddha = Sprite(0, 0, 40, 60, 20, 20, 0)
-hand = Sprite(0, 470, 30, 30, 11, 11, 0)
+coin = Sprite(random.randint(2, 490), 500, 5, 5, -40, -40, 500)
 
 
 def main():
@@ -68,27 +69,17 @@ def main():
             buddha.delta = buddha.vel
         buddha.x += buddha.delta
         # Code for hand movement
-        hand.u += hand.delta
-        if hand.u >= 500:
-            hand.delta = -hand.vel
-        elif hand.u < hand.width:
-            hand.delta = hand.vel
-        hand.x += hand.delta
+        coin.y += coin.delta
+        if coin.y <= 0:
+            coin.y = 490
+            coin.x = random.randint(2, 490)
+        coin.y += coin.delta
 
         # this is the attempted but currently broken code to throw the coin
-        coin = Sprite(hand.x, hand.y, 5, 5, 40, 40, hand.x)
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                coin.y -= coin.vel
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                coin.y -= coin.vel
-
         # This is where everything is drawn on the window
         win.fill((255, 0, 255))
         pygame.draw.rect(win, (255, 255, 0), (coin.x, coin.y, coin.width, coin.height))
         pygame.draw.rect(win, (0, 255, 0), (buddha.x, buddha.y, buddha.width, buddha.height))
-        pygame.draw.rect(win, (0, 255, 255), (hand.x, hand.y, hand.width, hand.height))
         pygame.display.update()
         pygame.event.pump()
     pygame.quit()
