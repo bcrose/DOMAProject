@@ -26,14 +26,14 @@ textsurface2 = myfont.render('Build Karma for each coin he catches', False, (255
 textsurface3 = myfont.render('Earn 100 karma for a museum secret', False, (255, 0, 255))
 textsurface5 = myfont.render('Press spacebar to throw', False, (255, 0, 255))
 textsurface4 = myfont.render('Press Enter to Begin', False, (255, 0, 255))
-points = 0
-textPoints = myfont.render('Karma: ' + str(points), False, (0, 0, 0))
+
 buddha = Sprite(0, 30, 40, 60, 20, 20, 0)
 coin = Sprite(random.randint(2, 490), 500, 5, 5, -40, -40, 500)
 
 
 def main():
     # initialize windows
+    points = 0
     win = pygame.display.set_mode((500, 500))
     win1 = pygame.display.set_mode((500, 500))
     run = False
@@ -73,6 +73,13 @@ def main():
             buddha.x += buddha.vel
         # Code for hand movement
         coin.y += coin.delta
+        if coin.y <= buddha.y + buddha.height:
+            if coin.x in range(buddha.x, buddha.x +buddha.width):
+                coin.y = 490
+                coin.x = random.randint(2, 490)
+                points += 10
+        coin.y += coin.delta
+
         if coin.y <= 0:
             coin.y = 490
             coin.x = random.randint(2, 490)
@@ -80,6 +87,7 @@ def main():
 
         # this is the attempted but currently broken code to throw the coin
         # This is where everything is drawn on the window
+        textPoints = myfont.render('Karma: ' + str(points), False, (0, 0, 0))
         win1.blit(templePic, [0, 0])
         pygame.draw.rect(win, (0, 0, 0), (buddha.x, buddha.y, buddha.width, buddha.height))
         win1.blit(theBuddha, [buddha.x, buddha.y])
