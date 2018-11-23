@@ -26,7 +26,9 @@ textsurface2 = myfont.render('Build Karma for each coin he catches', False, (255
 textsurface3 = myfont.render('Earn 100 karma for a museum secret', False, (255, 0, 255))
 textsurface5 = myfont.render('Press spacebar to throw', False, (255, 0, 255))
 textsurface4 = myfont.render('Press Enter to Begin', False, (255, 0, 255))
-buddha = Sprite(0, 0, 40, 60, 20, 20, 0)
+points = 0
+textPoints = myfont.render('Karma: ' + str(points), False, (0, 0, 0))
+buddha = Sprite(0, 30, 40, 60, 20, 20, 0)
 coin = Sprite(random.randint(2, 490), 500, 5, 5, -40, -40, 500)
 
 
@@ -35,7 +37,9 @@ def main():
     win = pygame.display.set_mode((500, 500))
     win1 = pygame.display.set_mode((500, 500))
     run = False
-    background_image = pygame.image.load("doma.jpg").convert()
+    domaPic = pygame.image.load("doma.jpg").convert()
+    templePic = pygame.image.load("temple.jpg").convert()
+    theBuddha = pygame.image.load("theBuddha.jpg").convert_alpha()
 
     # menu loop
     while not run:
@@ -44,7 +48,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     run = True
-        win1.blit(background_image, [0, 0])
+        win1.blit(domaPic, [0, 0])
         win1.blit(textsurface, (0, 0))
         win1.blit(textsurface1, (0, 50))
         win1.blit(textsurface2, (0, 75))
@@ -76,9 +80,11 @@ def main():
 
         # this is the attempted but currently broken code to throw the coin
         # This is where everything is drawn on the window
-        win.fill((255, 0, 255))
+        win1.blit(templePic, [0, 0])
+        pygame.draw.rect(win, (0, 0, 0), (buddha.x, buddha.y, buddha.width, buddha.height))
+        win1.blit(theBuddha, [buddha.x, buddha.y])
         pygame.draw.rect(win, (255, 255, 0), (coin.x, coin.y, coin.width, coin.height))
-        pygame.draw.rect(win, (0, 255, 0), (buddha.x, buddha.y, buddha.width, buddha.height))
+        win1.blit(textPoints, (380, 0))
         pygame.display.update()
         pygame.event.pump()
     pygame.quit()
