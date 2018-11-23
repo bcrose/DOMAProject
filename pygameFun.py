@@ -62,12 +62,11 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
         # Code for Buddha movement
-        buddha.u += buddha.delta
-        if buddha.u >= 500:
-            buddha.delta = -buddha.vel
-        elif buddha.u < buddha.width:
-            buddha.delta = buddha.vel
-        buddha.x += buddha.delta
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            buddha.x -= buddha.vel
+        if keys[pygame.K_RIGHT]:
+            buddha.x += buddha.vel
         # Code for hand movement
         coin.y += coin.delta
         if coin.y <= 0:
