@@ -20,8 +20,9 @@ def main():
     end = False
     domaPic = pygame.image.load("doma.jpg").convert()
     templePic = pygame.image.load("temple.jpg").convert()
-    theBuddha = pygame.image.load("theBuddha.jpg").convert_alpha()
+    theBuddha = pygame.image.load("theBuddha.png").convert_alpha()
     budBackground = pygame.image.load("buddhaBackground.jpg").convert()
+    coinSound = pygame.mixer.Sound("coinWav.wav")
 
     # menu loop
     while not run:
@@ -60,6 +61,7 @@ def main():
                 coin.y = 490
                 coin.x = random.randint(2, 490)
                 points += 10
+                pygame.mixer.Sound.play(coinSound)
         coin.y += coin.delta
 
         if coin.y <= 0:
@@ -78,7 +80,7 @@ def main():
         win.blit(templePic, [0, 0])
         pygame.draw.rect(win, (0, 0, 0), (buddha.x, buddha.y, buddha.width, buddha.height))
         win.blit(theBuddha, [buddha.x, buddha.y])
-        pygame.draw.rect(win, (0, 0, 0), (coin.x, coin.y, coin.width, coin.height))
+        pygame.draw.rect(win, (255, 215, 0), (coin.x, coin.y, coin.width, coin.height))
         win.blit(textPoints, (630, 0))
         pygame.display.update()
         while end:
