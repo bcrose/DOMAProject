@@ -1,60 +1,46 @@
 import pygame
 import random
+import spriteClass
+import menuText
 
 # a sprite class to create different size of sprites with different movement
 
-
-class Sprite:
-    def __init__(self, x, y, width, height, vel, delta, u):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.vel = vel
-        self.delta = delta
-        self.u = u
-
-
 pygame.init()
 pygame.font.init()
-
-# initialize the sprites needed for the game and text objects  for the menu
-myfont = pygame.font.SysFont('Comic Sans MS', 25)
-textsurface = myfont.render('Doma Games', False, (255, 0, 255))
-textsurface1 = myfont.render('Welcome! Throw coins to the Buddha', False, (255, 0, 255))
-textsurface2 = myfont.render('Build Karma for each coin he catches', False, (255, 0, 255))
-textsurface3 = myfont.render('Earn 100 karma for a museum secret', False, (255, 0, 255))
-textsurface5 = myfont.render('Press spacebar to throw', False, (255, 0, 255))
-textsurface4 = myfont.render('Press Enter to Begin', False, (255, 0, 255))
-
-buddha = Sprite(0, 30, 40, 60, 20, 20, 0)
-coin = Sprite(random.randint(2, 490), 500, 5, 5, -40, -40, 500)
+buddha = spriteClass.Sprite(0, 30, 40, 60, 28, 28, 0)
+coin = spriteClass.Sprite(random.randint(2, 490), 500, 15, 15, -26, -26, 500)
+menu1 = menuText.menu()
 
 
 def main():
     # initialize windows
     points = 0
-    win = pygame.display.set_mode((500, 500))
-    win1 = pygame.display.set_mode((500, 500))
+    win = pygame.display.set_mode((750, 500))
     run = False
+    end = False
     domaPic = pygame.image.load("doma.jpg").convert()
     templePic = pygame.image.load("temple.jpg").convert()
     theBuddha = pygame.image.load("theBuddha.jpg").convert_alpha()
+    budBackground = pygame.image.load("buddhaBackground.jpg").convert()
 
     # menu loop
     while not run:
         pygame.time.delay(100)
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     run = True
-        win1.blit(domaPic, [0, 0])
-        win1.blit(textsurface, (0, 0))
-        win1.blit(textsurface1, (0, 50))
-        win1.blit(textsurface2, (0, 75))
-        win1.blit(textsurface3, (0, 100))
-        win1.blit(textsurface5, (0, 125))
-        win1.blit(textsurface4, (250, 440))
+        win.blit(domaPic, [0, 0])
+        pygame.draw.rect(win, (0, 255, 0), (0, 50, 750, 125))
+        pygame.draw.rect(win, (255, 0, 0), (0, 0, 750, 50))
+        pygame.draw.rect(win, (255, 0, 0), (250, 440, 240, 50))
+        win.blit(menu1.line1, (0, 0))
+        win.blit(menu1.line2, (0, 50))
+        win.blit(menu1.line3, (0, 75))
+        win.blit(menu1.line4, (0, 100))
+        win.blit(menu1.line5, (0, 125))
+        win.blit(menu1.line6, (250, 440))
 
         pygame.display.update()
 
@@ -66,12 +52,8 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
         # Code for Buddha movement
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            buddha.x -= buddha.vel
-        if keys[pygame.K_RIGHT]:
-            buddha.x += buddha.vel
-        # Code for hand movement
+        buddhaMov()
+        # Code for coin movement and collisions
         coin.y += coin.delta
         if coin.y <= buddha.y + buddha.height:
             if coin.x in range(buddha.x, buddha.x +buddha.width):
@@ -85,17 +67,45 @@ def main():
             coin.x = random.randint(2, 490)
         coin.y += coin.delta
 
+        if points >= 100:
+            run = False
+            end = True
+
         # this is the attempted but currently broken code to throw the coin
         # This is where everything is drawn on the window
-        textPoints = myfont.render('Karma: ' + str(points), False, (0, 0, 0))
-        win1.blit(templePic, [0, 0])
+        # textPoints is instantiated at the end of the loop since it is ever changing
+        textPoints = menu1.myfont.render('Karma: ' + str(points), False, (0, 0, 0))
+        win.blit(templePic, [0, 0])
         pygame.draw.rect(win, (0, 0, 0), (buddha.x, buddha.y, buddha.width, buddha.height))
-        win1.blit(theBuddha, [buddha.x, buddha.y])
-        pygame.draw.rect(win, (255, 255, 0), (coin.x, coin.y, coin.width, coin.height))
-        win1.blit(textPoints, (380, 0))
+        win.blit(theBuddha, [buddha.x, buddha.y])
+        pygame.draw.rect(win, (0, 0, 0), (coin.x, coin.y, coin.width, coin.height))
+        win.blit(textPoints, (630, 0))
         pygame.display.update()
-        pygame.event.pump()
+        while end:
+            pygame.time.delay(100)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    end = False
+            win.blit(budBackground, [0, 0])
+            pygame.draw.rect(win, (0, 255, 0), (0, 0, 750, 125))
+            win.blit(menu1.endLine1, (0, 0))
+            win.blit(menu1.endLine2, (0, 25))
+            win.blit(menu1.endLine3, (0, 50))
+            win.blit(menu1.endLine4, (0, 75))
+
+
+            pygame.display.update()
+
     pygame.quit()
+
+
+def buddhaMov():
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        buddha.x -= buddha.vel
+    if keys[pygame.K_RIGHT]:
+        buddha.x += buddha.vel
 
 
 main()
