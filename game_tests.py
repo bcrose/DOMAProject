@@ -3,7 +3,7 @@ import pygameFun
 
 
 class TestGame(unittest.TestCase):
-    def test_vel(self):
+    def test_boundaries(self):
         self.assertGreater(pygameFun.buddha.vel, pygameFun.hand.vel)
 
     def test_size(self):

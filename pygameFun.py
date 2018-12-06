@@ -40,7 +40,6 @@ def main():
         win.blit(menu1.line2, (0, 50))
         win.blit(menu1.line3, (0, 75))
         win.blit(menu1.line4, (0, 100))
-        win.blit(menu1.line5, (0, 125))
         win.blit(menu1.line6, (250, 440))
 
         pygame.display.update()
@@ -106,8 +105,12 @@ def buddhaMov():
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         buddha.x -= buddha.vel
+        if buddha.x <= 0:
+            buddha.x = 0
     if keys[pygame.K_RIGHT]:
         buddha.x += buddha.vel
+        if buddha.x >= 750:
+            buddha.x = 710
 
 
 main()
